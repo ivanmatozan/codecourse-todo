@@ -22,11 +22,7 @@ class DatabaseTaskStorage implements TaskStorageInterface
             VALUES(:description, :due, :completed)
         ");
 
-        $stmt->execute([
-            'description' => $task->getDescription(),
-            'due' => $task->getDue()->format('Y-m-d H:i:s'),
-            'completed' => $task->isCompleted()
-        ]);
+        $stmt->execute($this->buildColumns($task));
 
         return $this->db->lastInsertId();
     }
@@ -41,12 +37,9 @@ class DatabaseTaskStorage implements TaskStorageInterface
             WHERE id = :id
         ");
 
-        $stmt->execute([
-            'id' => $task->getId(),
-            'description' => $task->getDescription(),
-            'due' => $task->getDue()->format('Y-m-d H:i:s'),
-            'completed' => $task->isCompleted()
-        ]);
+        $stmt->execute($this->buildColumns($task, [
+            'id' => $task->getId()
+        ]));
 
         return $this->get($task->getId());
     }
@@ -71,5 +64,14 @@ class DatabaseTaskStorage implements TaskStorageInterface
         $stmt->execute();
 
         return $stmt->fetchAll();
+    }
+
+    protected function buildColumns(Task $task, $additional = [])
+    {
+        return array_merge([
+            'description' => $task->getDescription(),
+            'due' => $task->getDue()->format('Y-m-d H:i:s'),
+            'completed' => $task->isCompleted()
+        ], $additional);
     }
 }

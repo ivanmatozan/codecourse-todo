@@ -16,7 +16,7 @@ $newTask->setDescription('Finish OOP tutorial')
 //$newTask = $storage->get($newTaskId);
 
 $task = $storage->get(3);
-$task->setDescription('Updated Task');
+$task->setDescription('Updated #2 Task');
 $updatedTask = $storage->update($task);
 
 var_dump($updatedTask);
