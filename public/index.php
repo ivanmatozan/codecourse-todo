@@ -7,17 +7,16 @@ use \Todo\Models\Task;
 require __DIR__ . '/../app/bootstrap.php';
 
 $storage = new DatabaseTaskStorage($db);
+$manager = new \Todo\TaskManager($storage);
 
 $newTask = new Task();
-$newTask->setDescription('Finish OOP tutorial')
+$newTask->setDescription('Finish OOP tutorial 2')
     ->setDue(new DateTime('+1 hours'));
 
-//$newTaskId = $storage->store($newTask);
-//$newTask = $storage->get($newTaskId);
+$savedTask = $manager->addTask($newTask);
 
-$task = $storage->get(3);
-$task->setDescription('Updated #2 Task');
-$updatedTask = $storage->update($task);
+$task = $manager->getTask($savedTask->getId());
 
-var_dump($updatedTask);
-die();
+$updatedTask = $manager->updateTask($task->setCompleted());
+
+$tasks = $manager->getTasks();

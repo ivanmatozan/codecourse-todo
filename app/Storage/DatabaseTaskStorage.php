@@ -24,7 +24,7 @@ class DatabaseTaskStorage implements TaskStorageInterface
 
         $stmt->execute($this->buildColumns($task));
 
-        return $this->db->lastInsertId();
+        return $this->get($this->db->lastInsertId());
     }
 
     public function update(Task $task)
