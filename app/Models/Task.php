@@ -6,38 +6,20 @@ use DateTime;
 
 class Task
 {
-    /**
-     * @var int
-     */
     protected $id;
 
-    /**
-     * @var bool
-     */
     protected $completed = false;
 
-    /**
-     * @var string
-     */
     protected $description;
 
-    /**
-     * @var DateTime
-     */
     protected $due;
-
-
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * @return int
      */
     public function getId(): int
     {
-        return $this->id;
+        return (int)$this->id;
     }
 
     /**
@@ -60,10 +42,10 @@ class Task
     }
 
     /**
-     * @param bool $completed
+     * @param $completed
      * @return $this
      */
-    public function setCompleted(bool $completed = true)
+    public function setCompleted($completed = true)
     {
         $this->completed = $completed;
 
@@ -94,6 +76,10 @@ class Task
      */
     public function getDue(): DateTime
     {
+        if (!$this->due instanceof DateTime) {
+            return new DateTime($this->due);
+        }
+
         return $this->due;
     }
 }
